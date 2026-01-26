@@ -1,0 +1,8 @@
+J:\2025-2026\C#\naptar_ikt\naptar_ikt_feladat\naptar_ikt_feladat\obj\Debug\naptar_ikt_feladat.csproj.AssemblyReference.cache
+J:\2025-2026\C#\naptar_ikt\naptar_ikt_feladat\naptar_ikt_feladat\obj\Debug\naptar_ikt_feladat.csproj.CoreCompileInputs.cache
+J:\2025-2026\C#\naptar_ikt\naptar_ikt_feladat\naptar_ikt_feladat\bin\Debug\naptar_ikt_feladat.exe.config
+J:\2025-2026\C#\naptar_ikt\naptar_ikt_feladat\naptar_ikt_feladat\bin\Debug\naptar_ikt_feladat.exe
+J:\2025-2026\C#\naptar_ikt\naptar_ikt_feladat\naptar_ikt_feladat\bin\Debug\naptar_ikt_feladat.pdb
+J:\2025-2026\C#\naptar_ikt\naptar_ikt_feladat\naptar_ikt_feladat\obj\Debug\naptar_ikt_feladat.exe
+J:\2025-2026\C#\naptar_ikt\naptar_ikt_feladat\naptar_ikt_feladat\obj\Debug\naptar_ikt_feladat.pdb
+J:\2025-2026\C#\naptar_ikt\naptar_ikt_feladat\naptar_ikt_feladat\obj\Debug\naptar_ikt_feladat.exe.config
