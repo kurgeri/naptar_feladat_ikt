@@ -46,11 +46,23 @@ namespace naptar_ikt_feladat
         }
         static void Naptar()
         {
+            Console.WriteLine("        H  K  Sz Cs P Szo V");
             string[,] naptar = new string[5, 7];
             int napok = 0;
+            for (int i = 0;  i < naptar.GetLength(1); i++)
+            {
+              
+               
+                for (int j = 0; j < naptar.GetLength(0); j++)
+                {
+                  
+                }
+            }
+
+
             for (int i = 0; i < naptar.GetLength(0); i++)
             {
-             
+                Console.Write($"\n{i+1}.hét\t");
                 for (int j = 0; j < naptar.GetLength(1); j++)
                 {
                     napok++;
@@ -62,7 +74,7 @@ namespace naptar_ikt_feladat
                     
 
 
-                    Console.Write($"{naptar[i,j]} ");
+                    Console.Write($"{naptar[i,j]}  ");
                 }
                 Console.WriteLine();
             }

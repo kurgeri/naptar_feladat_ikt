@@ -1,0 +1,37 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Gergo\\Desktop\\MINDEN\\Suli\\2025-2026_tanev\\2025-2026\\C#\\naptar_ikt\\naptar_ikt_feladat\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{FBFE2B43-1EC7-43C4-805E-B8776AED3E59}|naptar_ikt_feladat\\naptar_ikt_feladat.csproj|c:\\users\\gergo\\desktop\\minden\\suli\\2025-2026_tanev\\2025-2026\\c#\\naptar_ikt\\naptar_ikt_feladat\\naptar_ikt_feladat\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FBFE2B43-1EC7-43C4-805E-B8776AED3E59}|naptar_ikt_feladat\\naptar_ikt_feladat.csproj|solutionrelative:naptar_ikt_feladat\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\Gergo\\Desktop\\MINDEN\\Suli\\2025-2026_tanev\\2025-2026\\C#\\naptar_ikt\\naptar_ikt_feladat\\naptar_ikt_feladat\\Program.cs",
+              "RelativeDocumentMoniker": "naptar_ikt_feladat\\Program.cs",
+              "ToolTip": "C:\\Users\\Gergo\\Desktop\\MINDEN\\Suli\\2025-2026_tanev\\2025-2026\\C#\\naptar_ikt\\naptar_ikt_feladat\\naptar_ikt_feladat\\Program.cs*",
+              "RelativeToolTip": "naptar_ikt_feladat\\Program.cs*",
+              "ViewState": "AgIAABsAAAAAAAAAAAAUwDAAAAAzAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-26T18:10:23.862Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
