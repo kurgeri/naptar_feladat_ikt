@@ -13,24 +13,24 @@ namespace naptar_ikt_feladat
 
     struct Felhasznalok
     {
-        public bool apa;
-        public bool anya;
+        public string felhasznalonev;
         public DateTime idopont;
         public int idotartam; // percben
         public string esemenynev;
+        public List<Felhasznalok> esemenyek;
+
 
         public override string ToString()
         {
-            return ($"{esemenynev};{idopont};{idotartam}");
+            return ($"{felhasznalonev};{esemenynev};{idopont};{idotartam}");
         }
     }
     internal class Program
     {
         static void Main(string[] args)
         {
-
             Felhasznalovaltas();
-            Menu();
+
 
         }
 
@@ -38,51 +38,48 @@ namespace naptar_ikt_feladat
         {
             Felhasznalok felhasznalo = new Felhasznalok();
 
-
-
+            string user = string.Empty;
+         
             do
             {
-                Console.Write("Ki használja a számító gépet? Apa/Anya: ");
-                string user = Console.ReadLine();
+
+                Console.Write("Ki használja a számító gépet? Apa/Anya (első betű nagybetű): ");
+                user = Console.ReadLine();
                 switch (user)
 
                 {
                     case "Apa":
-                        felhasznalo.apa = true;
+                        felhasznalo.felhasznalonev = "Apa";
                         Console.WriteLine("Szia, Apa!");
                         break;
 
                     case "Anya":
-                        felhasznalo.anya = true;
+                        felhasznalo.felhasznalonev = "Anya";
                         Console.WriteLine("Szia, Anya!");
                         break;
-                    case "apa":
-                        felhasznalo.apa = true;
-                        Console.WriteLine("Szia, Apa!");
-                        break;
-                    case "anya":
-                        felhasznalo.anya = true;
-                        Console.WriteLine("Szia, Anya!");
-                        break;
+
 
                     default:
                         Console.WriteLine("Nem megfelelő adatot adott meg!");
                         break;
                 }
 
-            } while (felhasznalo.apa == false && felhasznalo.anya == false);
+            } while (user == string.Empty && user != "Apa" && user != "Anya");
+            Menu();
         }
 
         static void Menu()
         {
+            
 
-
-
+           
             char opcio;
-
+            
+            Console.Clear();
+            Console.WriteLine($"Szia ");
             do
             {
-                Console.Write($"N: Naptár\nÚ: Új esemény rögzítése\nL : Legközelebbi esemény\n K: Kilépés\nVálasszon a kívánt opciók közül:\nF: Felhasználó váltás: ");
+                Console.Write($"N: Naptár\nÚ: Új esemény rögzítése\nL : Legközelebbi esemény\nK: Kilépés\nF: Felhasználó váltás\nVálasszon a kívánt opciók közül: ");
                 opcio = Convert.ToChar(Console.ReadLine().ToUpper());
 
 
@@ -93,10 +90,10 @@ namespace naptar_ikt_feladat
                         Naptar();
                         break;
                     case 'Ú':
-                        // Új események függvény
+                        Ujesemeny();
                         break;
                     case 'L':
-                        // Legközelebbi esemény függvényg
+                        Legkozelebbiesemeny();
                         break;
                     case 'K':
                         Kilepes();
@@ -120,21 +117,14 @@ namespace naptar_ikt_feladat
         }
         static void Naptar()
         {
-            string[,] naptar = new string[6, 7];
-            naptar[0, 0] = "H";
-            naptar[0, 1] = "K";
-            naptar[0, 2] = "Sz";
-            naptar[0, 3] = "Cs";
-            naptar[0, 4] = "P";
-            naptar[0, 5] = "Szo";
-            naptar[0, 6] = "V";
+            string[,] naptar = new string[5, 7];
             int napok = 0;
-          
+
 
 
             for (int i = 1; i < naptar.GetLength(0); i++)
             {
-                
+
                 Console.Write($"\n{i}.hét\t");
                 for (int j = 0; j < naptar.GetLength(1); j++)
                 {
@@ -151,15 +141,30 @@ namespace naptar_ikt_feladat
                 }
                 Console.WriteLine();
             }
+
+            Console.WriteLine("Nyomjon meg egy gombot, hogy visszamenjen a menübe!");
+            Console.ReadLine();
+            Menu();
         }
 
         static void Kilepes()
         {
             StreamWriter kimenet = new StreamWriter("esemenyek.txt");
-            kimenet.Write($"Esemény;Felhasználó;Időpont;Időtartam");
+            kimenet.Write($"");
 
             kimenet.Flush();
             kimenet.Close();
+
+        }
+
+
+        static void Ujesemeny()
+        {
+
+
+        }
+        static void Legkozelebbiesemeny()
+        {
 
         }
 
