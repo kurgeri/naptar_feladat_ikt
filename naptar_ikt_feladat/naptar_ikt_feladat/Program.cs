@@ -8,6 +8,7 @@ using System.Linq.Expressions;
 using System.Configuration;
 using System.Security.Permissions;
 using System.Diagnostics;
+using System.Security.Cryptography.X509Certificates;
 
 namespace naptar_ikt_feladat
 {
@@ -97,6 +98,7 @@ namespace naptar_ikt_feladat
                 int ora = random.Next(8, 21);
                 int perc = random.Next(0, 60);
                 int esemenyhossz = random.Next(30, 120);
+                fe.esemenynev = $"{i}. esemeny";
 
                 fe.eidopontkezd = new DateTime(2028, 02, i, ora, perc, 0);
                 int pluszora = esemenyhossz / 60;
@@ -144,7 +146,7 @@ namespace naptar_ikt_feladat
                         Legkozelebbiesemeny();
                         break;
                     case 'K':
-                        Kilepes();
+                        Kilepes(adatok);
                         break;
                     case 'F':
                         Felhasznalovaltas(fe);
@@ -197,12 +199,15 @@ namespace naptar_ikt_feladat
             Menu(f);
         }
 
-        static void Kilepes()
+        static void Kilepes(List<Felhasznalok> adatok)
         {
           
             
             StreamWriter kimenet = new StreamWriter("esemenyek.txt");
-            kimenet.Write($"");
+            foreach (Felhasznalok fe in adatok)
+            {
+                kimenet.WriteLine($"{fe.ToString()}");
+            }
 
             kimenet.Flush();
             kimenet.Close();
