@@ -14,32 +14,35 @@ namespace naptar_ikt_feladat
     struct Felhasznalok
     {
         public string felhasznalonev;
-        public DateTime idopont;
-        public int idotartam; // percben
+        public DateTime eidopontkezd;
+        public DateTime eidopontveg;
         public string esemenynev;
-        public List<Felhasznalok> esemenyek;
+
 
 
         public override string ToString()
         {
-            return ($"{felhasznalonev};{esemenynev};{idopont};{idotartam}");
+            return ($"{felhasznalonev};{esemenynev};{eidopontkezd};{eidopontveg}");
         }
     }
     internal class Program
     {
         static void Main(string[] args)
         {
-            Felhasznalovaltas();
+            Felhasznalok f = new Felhasznalok();
+               f = Felhasznalovaltas(f);
+            
+            Menu(f);
 
 
         }
 
-        static void Felhasznalovaltas()
+        static Felhasznalok Felhasznalovaltas(Felhasznalok f)
         {
-            Felhasznalok felhasznalo = new Felhasznalok();
+            Felhasznalok felhasznalo = f;
 
             string user = string.Empty;
-         
+
             do
             {
 
@@ -65,18 +68,20 @@ namespace naptar_ikt_feladat
                 }
 
             } while (user == string.Empty && user != "Apa" && user != "Anya");
-            Menu();
+          
+        
+            return felhasznalo;
         }
 
-        static void Menu()
+        static void Menu(Felhasznalok f)
         {
-            
 
+            Felhasznalok fe = f;
            
             char opcio;
             
             Console.Clear();
-            Console.WriteLine($"Szia ");
+            Console.WriteLine($"Szia {f.felhasznalonev}! ");
             do
             {
                 Console.Write($"N: Naptár\nÚ: Új esemény rögzítése\nL : Legközelebbi esemény\nK: Kilépés\nF: Felhasználó váltás\nVálasszon a kívánt opciók közül: ");
@@ -87,7 +92,7 @@ namespace naptar_ikt_feladat
                 {
                     case 'N':
                         Console.Clear();
-                        Naptar();
+                        Naptar(fe);
                         break;
                     case 'Ú':
                         Ujesemeny();
@@ -99,7 +104,7 @@ namespace naptar_ikt_feladat
                         Kilepes();
                         break;
                     case 'F':
-                        Felhasznalovaltas();
+                        Felhasznalovaltas(f);
                         break;
                     default:
                         Console.Clear();
@@ -115,40 +120,44 @@ namespace naptar_ikt_feladat
 
 
         }
-        static void Naptar()
+        static void Naptar(Felhasznalok f)
         {
+            
             string[,] naptar = new string[5, 7];
             int napok = 0;
 
+            Console.WriteLine("\t\tH\tK\tSz\tCs\tP\tSzo\tV");
 
-
-            for (int i = 1; i < naptar.GetLength(0); i++)
+            for (int i = 0; i < naptar.GetLength(0); i++)
             {
 
-                Console.Write($"\n{i}.hét\t");
+                Console.Write($"\n{i+1}.hét\t");
                 for (int j = 0; j < naptar.GetLength(1); j++)
                 {
-                    napok++;
+                
                     naptar[i, j] = Convert.ToString(napok);
-                    if (napok > 29)
+                    if (napok > 29 || napok == 0)
                     {
                         naptar[i, j] = String.Empty;
                     }
+                    napok++;
 
 
 
-                    Console.Write($"{naptar[i, j]}  ");
+                    Console.Write($"\t{naptar[i, j]}");
                 }
                 Console.WriteLine();
             }
 
             Console.WriteLine("Nyomjon meg egy gombot, hogy visszamenjen a menübe!");
             Console.ReadLine();
-            Menu();
+            Menu(f);
         }
 
         static void Kilepes()
         {
+          
+            
             StreamWriter kimenet = new StreamWriter("esemenyek.txt");
             kimenet.Write($"");
 
@@ -165,6 +174,9 @@ namespace naptar_ikt_feladat
         }
         static void Legkozelebbiesemeny()
         {
+            Random rnd = new Random();
+            int nap = rnd.Next(1, 29);
+            DateTime maidatum = new DateTime(2028, 2, nap);
 
         }
 
