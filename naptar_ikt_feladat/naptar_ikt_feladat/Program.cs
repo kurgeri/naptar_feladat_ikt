@@ -32,75 +32,49 @@ namespace naptar_ikt_feladat
         static void Main(string[] args)
         {
             Felhasznalok f = new Felhasznalok();
-        
-            f = Felhasznalovaltas(f);
-         
-
-
-
-
+            Felhasznalovaltas(f);
         }
 
-        static Felhasznalok Felhasznalovaltas(Felhasznalok f)
+        static void Felhasznalovaltas(Felhasznalok f)
         {
-            Felhasznalok felhasznalo = f;
-
             string user = string.Empty;
-
             do
             {
 
                 Console.Write("Ki használja a számító gépet? Apa/Anya (első betű nagybetű): ");
                 user = Console.ReadLine();
                 switch (user)
-
                 {
                     case "Apa":
-                        felhasznalo.felhasznalonev = "Apa";
+                        f.felhasznalonev = "Apa";
                         Console.WriteLine("Szia, Apa!");
                         break;
-
                     case "Anya":
-                        felhasznalo.felhasznalonev = "Anya";
+                        f.felhasznalonev = "Anya";
                         Console.WriteLine("Szia, Anya!");
                         break;
-
-
                     default:
                         Console.WriteLine("Nem megfelelő adatot adott meg!");
                         break;
                 }
 
             } while (user != "Apa" && user != "Anya");
-
-            Menu(felhasznalo);
-            return felhasznalo;
-           
+            Strukfeltolt(f);
         }
 
-        static void Menu(Felhasznalok f)
+        static void Strukfeltolt (Felhasznalok f)
         {
-
-            Felhasznalok fe = f;
-           
-            char opcio;
+            
             List<Felhasznalok> adatok = new List<Felhasznalok>();
-
-         
-
             Random random = new Random();
-
-
-
-
             for (int i = 1; i < 29; i++)
             {
                 int ora = random.Next(8, 21);
                 int perc = random.Next(0, 60);
                 int esemenyhossz = random.Next(30, 120);
-                fe.esemenynev = $"{i}. esemeny";
+                f.esemenynev = $"{i}. esemeny";
 
-                fe.eidopontkezd = new DateTime(2028, 02, i, ora, perc, 0);
+                f.eidopontkezd = new DateTime(2028, 02, i, ora, perc, 0);
                 int pluszora = esemenyhossz / 60;
                 int pluszperc = esemenyhossz % 60;
 
@@ -110,23 +84,19 @@ namespace naptar_ikt_feladat
                     vegperc -= 60;
                     pluszora++;
                 }
-                fe.eidopontveg = new DateTime(2028, 02, i, ora+pluszora, vegperc, 0);
-                adatok.Add(fe);
-                Console.WriteLine(fe.ToString());
-
+                f.eidopontveg = new DateTime(2028, 02, i, ora + pluszora, vegperc, 0);
+                adatok.Add(f);
             }
 
-    
-           
-
-            
+            Menu(f, adatok);
+        }
 
 
-
-           
-
-            
-            Console.WriteLine($"Szia {fe.felhasznalonev}! ");
+        static void Menu(Felhasznalok f, List<Felhasznalok> adatok)
+        {
+            Console.Clear();    
+            char opcio;
+            Console.WriteLine($"Szia {f.felhasznalonev}! ");
             do
             {
                 Console.Write($"N: Naptár\nÚ: Új esemény rögzítése\nL : Legközelebbi esemény\nK: Kilépés\nF: Felhasználó váltás\nVálasszon a kívánt opciók közül: ");
@@ -137,7 +107,7 @@ namespace naptar_ikt_feladat
                 {
                     case 'N':
                         Console.Clear();
-                        Naptar(fe);
+                        Naptar(f,adatok);
                         break;
                     case 'Ú':
                         Ujesemeny();
@@ -149,7 +119,7 @@ namespace naptar_ikt_feladat
                         Kilepes(adatok);
                         break;
                     case 'F':
-                        Felhasznalovaltas(fe);
+                        Felhasznalovaltas(f);
                         break;
                     default:
                         Console.Clear();
@@ -165,39 +135,81 @@ namespace naptar_ikt_feladat
 
 
         }
-        static void Naptar(Felhasznalok f)
+        static void Naptar(Felhasznalok f, List<Felhasznalok> adatok)
         {
-            
+
             string[,] naptar = new string[5, 7];
             int napok = 0;
 
-            Console.WriteLine("\t\tH\tK\tSz\tCs\tP\tSzo\tV");
+            Console.Write($"\t\tH\tK\tSz\tCs\tP\tSzo\t");
+            Console.ForegroundColor = ConsoleColor.Red;
+
+            Console.WriteLine("V");
+           
+            Console.ResetColor();
 
             for (int i = 0; i < naptar.GetLength(0); i++)
             {
 
-                Console.Write($"\n{i+1}.hét\t");
+                Console.Write($"\n{i + 1}.hét\t");
                 for (int j = 0; j < naptar.GetLength(1); j++)
                 {
-                
+
                     naptar[i, j] = Convert.ToString(napok);
                     if (napok > 29 || napok == 0)
                     {
                         naptar[i, j] = String.Empty;
                     }
-                    napok++;
+                    if (j == 6)
+                    {
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
+                    }
+                        napok++;
+                  
 
 
 
                     Console.Write($"\t{naptar[i, j]}");
+                    Console.ResetColor();
                 }
                 Console.WriteLine();
             }
+            Console.WriteLine("Szeretné egy adott napnakl az esményeit megtekinteni? (I/N)");
+            char meg = Convert.ToChar(Console.ReadLine());
+            int nap;
+            if(meg == 'N')
+            {
+               
+                Menu(f, adatok);
+            }
+            else if(meg == 'I')
+            {
+                
+                do
+                {
+                    Console.WriteLine("Melyik napot szeretné megtekinteni? (1-29)");
+                    nap = Convert.ToInt32(Console.ReadLine());
+                    if (nap < 1 || nap > 29)
+                    {
+                        Console.WriteLine($"Nem jó számot adott meg!");
+                    }
 
-            Console.WriteLine("Nyomjon meg egy gombot, hogy visszamenjen a menübe!");
+                } while(nap < 1 || nap > 29);
+
+               foreach (Felhasznalok fe in adatok)
+                {
+                    if(fe.eidopontkezd.Day == (nap-1))
+                    {
+                        Console.WriteLine(adatok[nap - 1]);
+                    }
+                }
+            }
+            Console.WriteLine("Nyomjon meg egy gombot, hogy vissza menjen a menübe");
             Console.ReadLine();
-            Menu(f);
+            Menu(f, adatok);
+
         }
+            
 
         static void Kilepes(List<Felhasznalok> adatok)
         {
