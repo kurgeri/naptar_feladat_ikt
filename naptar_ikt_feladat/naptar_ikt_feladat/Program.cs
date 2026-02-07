@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq.Expressions;
 using System.Configuration;
 using System.Security.Permissions;
+using System.Diagnostics;
 
 namespace naptar_ikt_feladat
 {
@@ -30,9 +31,11 @@ namespace naptar_ikt_feladat
         static void Main(string[] args)
         {
             Felhasznalok f = new Felhasznalok();
-               f = Felhasznalovaltas(f);
-            
-            Menu(f);
+        
+            f = Felhasznalovaltas(f);
+         
+
+
 
 
         }
@@ -67,10 +70,11 @@ namespace naptar_ikt_feladat
                         break;
                 }
 
-            } while (user == string.Empty && user != "Apa" && user != "Anya");
-          
-        
+            } while (user != "Apa" && user != "Anya");
+
+            Menu(felhasznalo);
             return felhasznalo;
+           
         }
 
         static void Menu(Felhasznalok f)
@@ -79,9 +83,48 @@ namespace naptar_ikt_feladat
             Felhasznalok fe = f;
            
             char opcio;
+            List<Felhasznalok> adatok = new List<Felhasznalok>();
+
+         
+
+            Random random = new Random();
+
+
+
+
+            for (int i = 1; i < 29; i++)
+            {
+                int ora = random.Next(8, 21);
+                int perc = random.Next(0, 60);
+                int esemenyhossz = random.Next(30, 120);
+
+                fe.eidopontkezd = new DateTime(2028, 02, i, ora, perc, 0);
+                int pluszora = esemenyhossz / 60;
+                int pluszperc = esemenyhossz % 60;
+
+                int vegperc = pluszperc + perc;
+                if (vegperc >= 60)
+                {
+                    vegperc -= 60;
+                    pluszora++;
+                }
+                fe.eidopontveg = new DateTime(2028, 02, i, ora+pluszora, vegperc, 0);
+                adatok.Add(fe);
+                Console.WriteLine(fe.ToString());
+
+            }
+
+    
+           
+
             
-            Console.Clear();
-            Console.WriteLine($"Szia {f.felhasznalonev}! ");
+
+
+
+           
+
+            
+            Console.WriteLine($"Szia {fe.felhasznalonev}! ");
             do
             {
                 Console.Write($"N: Naptár\nÚ: Új esemény rögzítése\nL : Legközelebbi esemény\nK: Kilépés\nF: Felhasználó váltás\nVálasszon a kívánt opciók közül: ");
@@ -104,7 +147,7 @@ namespace naptar_ikt_feladat
                         Kilepes();
                         break;
                     case 'F':
-                        Felhasznalovaltas(f);
+                        Felhasznalovaltas(fe);
                         break;
                     default:
                         Console.Clear();

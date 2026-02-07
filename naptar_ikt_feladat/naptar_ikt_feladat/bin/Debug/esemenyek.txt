@@ -1,1 +1,0 @@
-Esemény;Felhasználó;Időpont;Időtartam
