@@ -1,4 +1,4 @@
-Mozi
+Filmnézés
 Kirándulás
 Társasozás
 Szánkózás
@@ -7,3 +7,5 @@ Hóemberépítés
 Színház
 Hógolyozás
 Találkozó
+Fodrász
+Bevásárlás

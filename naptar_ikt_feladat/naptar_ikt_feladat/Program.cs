@@ -9,6 +9,7 @@ using System.Configuration;
 using System.Security.Permissions;
 using System.Diagnostics;
 using System.Security.Cryptography.X509Certificates;
+using System.Dynamic;
 
 namespace naptar_ikt_feladat
 {
@@ -24,7 +25,7 @@ namespace naptar_ikt_feladat
 
         public override string ToString()
         {
-            return ($"{felhasznalonev};{esemenynev};{eidopontkezd};{eidopontveg}");
+            return $"{felhasznalonev};\t{esemenynev};\t{eidopontkezd.ToString("yyyy.MM.dd HH:mm")};\t{eidopontveg.ToString("HH:mm")}";
         }
     }
     internal class Program
@@ -37,11 +38,12 @@ namespace naptar_ikt_feladat
 
         static void Felhasznalovaltas(Felhasznalok f)
         {
+            Console.Clear();
             string user = string.Empty;
             do
             {
 
-                Console.Write("Ki használja a számító gépet? Apa/Anya (első betű nagybetű): ");
+                Console.Write("Ki használja a naptárat? Apa/Anya (első betű nagybetű): ");
                 user = Console.ReadLine();
                 switch (user)
                 {
@@ -62,32 +64,28 @@ namespace naptar_ikt_feladat
             Strukfeltolt(f);
         }
 
-        static void Strukfeltolt (Felhasznalok f)
+        static void Strukfeltolt(Felhasznalok f)
         {
-            
+
             List<Felhasznalok> adatok = new List<Felhasznalok>();
             Random random = new Random();
-            int hetszamlalo = 0;
-            StreamReader fajl = new StreamReader("esemenynevek.txt",Encoding.UTF8);
+            StreamReader fajl = new StreamReader("esemenynevek.txt", Encoding.UTF8);
             List<string> esemenyek = new List<string>();
 
             while (!fajl.EndOfStream)
             {
-             
-                    esemenyek.Add(fajl.ReadLine());
-                
+
+                esemenyek.Add(fajl.ReadLine());
+
             }
-
-
-
             for (int i = 1; i < 30; i++)
             {
-                int ora = random.Next(8, 21);
+                int ora = random.Next(8, 20);
                 int perc = random.Next(0, 60);
-                int esemenyhossz = random.Next(30, 120);
+                int esemenyhossz = random.Next(30, 120); // percben
                 int randomesemeny = random.Next(0, esemenyek.Count);
                 f.esemenynev = esemenyek[randomesemeny];
-                
+
 
                 f.eidopontkezd = new DateTime(2028, 02, i, ora, perc, 0);
                 int pluszora = esemenyhossz / 60;
@@ -95,94 +93,72 @@ namespace naptar_ikt_feladat
 
                 int vegperc = pluszperc + perc;
 
+
                 if (vegperc >= 60)
                 {
                     vegperc -= 60;
                     pluszora++;
                 }
-                f.eidopontveg = new DateTime(2028, 02, i, ora + pluszora, vegperc, 0);
+                int vegora = pluszora + ora;
+                f.eidopontveg = new DateTime(2028, 02, i, vegora, vegperc, 0);
 
-                if (f.eidopontveg.Hour > 21)
+
+
+                adatok.Add(f);
+
+                if (i % 2 == 0)
                 {
-                    ora = random.Next(8, 21);
+                    ora = random.Next(8, 20);
                     perc = random.Next(0, 60);
                     esemenyhossz = random.Next(30, 120);
                     randomesemeny = random.Next(0, esemenyek.Count);
                     f.esemenynev = esemenyek[randomesemeny];
-
-
                     f.eidopontkezd = new DateTime(2028, 02, i, ora, perc, 0);
                     pluszora = esemenyhossz / 60;
                     pluszperc = esemenyhossz % 60;
-
                     vegperc = pluszperc + perc;
+
 
                     if (vegperc >= 60)
                     {
                         vegperc -= 60;
                         pluszora++;
                     }
-                    f.eidopontveg = new DateTime(2028, 02, i, ora + pluszora, vegperc, 0);
+                    vegora = ora + pluszora;
+                    f.eidopontveg = new DateTime(2028, 02, i, vegora, vegperc, 0);
+
+
+
+
+                    adatok.Add(f);
                 }
-                adatok.Add(f);
+                //do
+                //{
+                //    ora = random.Next(8, 20);
+                //    perc = random.Next(0, 60);
+                //    esemenyhossz = random.Next(30, 120);
+                //    randomesemeny = random.Next(0, esemenyek.Count);
+                //    f.esemenynev = esemenyek[randomesemeny];
+                //    f.eidopontkezd = new DateTime(2028, 02, i, ora, perc, 0);
+                //    pluszora = esemenyhossz / 60;
+                //    pluszperc = esemenyhossz % 60;
+                //    vegperc = pluszperc + perc;
+
+
+                //    if (vegperc >= 60)
+                //    {
+                //        vegperc -= 60;
+                //        pluszora++;
+                //    }
+                //    vegora = ora + pluszora;
+                //    f.eidopontveg = new DateTime(2028, 02, i, vegora, vegperc, 0);
+
+                //} while ((adatok[i -].eidopontkezd.Date) == (adatok[i - 2].eidopontkezd.Date) && (adatok[i - 1].eidopontkezd.Hour) == (adatok[i - 2].eidopontkezd.Hour));
+
+
+
+
             }
-           
-            //do
-            //{
-
-            //    int ora = random.Next(8, 20);
-            //    int perc = random.Next(0, 60);
-            //    int esemenyhossz = random.Next(30, 120);
-            //    int randomesemeny = random.Next(0, esemenyek.Count);
-            //    f.esemenynev = esemenyek[randomesemeny];
-
-            //    int pluszora = esemenyhossz / 60;
-            //    int pluszperc = esemenyhossz % 60;
-
-            //    int vegperc = pluszperc + perc;
-
-            //    if (vegperc >= 60)
-            //    {
-            //        vegperc -= 60;
-            //        pluszora++;
-            //    }
-
-            //    f.eidopontkezd = new DateTime(2028, 02, nap, ora, perc, 0);
-            //    if (f.eidopontkezd.DayOfWeek == DayOfWeek.Sunday)
-            //    {
-
-            //        ora = random.Next(8, 20);
-            //        perc = random.Next(0, 60);
-            //        esemenyhossz = random.Next(30, 120);
-            //        randomesemeny = random.Next(0, esemenyek.Count);
-
-
-            //        pluszora = esemenyhossz / 60;
-            //        pluszperc = esemenyhossz % 60;
-            //        vegperc = pluszperc + perc;
-
-            //        if (vegperc >= 60)
-            //        {
-            //            vegperc -= 60;
-            //            pluszora++;
-            //        }
-
-
-            //        f.esemenynev = esemenyek[randomesemeny];
-
-            //        nap = random.Next(1, f.eidopontkezd.Day);
-            //        f.eidopontkezd = new DateTime(2028, 02, nap, ora, perc, 0);
-            //        f.eidopontveg = new DateTime(2028, 02, nap, ora + pluszora, vegperc, 0);
-            //        hetszamlalo++;
-
-            //    }
-            //    f.eidopontveg = new DateTime(2028, 02, nap, ora + pluszora, vegperc, 0);
-
-
-
-            //    adatok.Add(f);
-            //    nap++;
-            //} while (nap < 30);
 
             Menu(f, adatok);
         }
@@ -190,7 +166,7 @@ namespace naptar_ikt_feladat
 
         static void Menu(Felhasznalok f, List<Felhasznalok> adatok)
         {
-            Console.Clear();    
+            Console.Clear();
             char opcio;
             Console.WriteLine($"Szia {f.felhasznalonev}! ");
             do
@@ -203,7 +179,7 @@ namespace naptar_ikt_feladat
                 {
                     case 'N':
                         Console.Clear();
-                        Naptar(f,adatok);
+                        Naptar(f, adatok);
                         break;
                     case 'Ú':
                         Ujesemeny(f, adatok);
@@ -241,7 +217,7 @@ namespace naptar_ikt_feladat
             Console.ForegroundColor = ConsoleColor.Red;
 
             Console.WriteLine("V");
-           
+
             Console.ResetColor();
 
             for (int i = 0; i < naptar.GetLength(0); i++)
@@ -260,8 +236,8 @@ namespace naptar_ikt_feladat
                     {
                         Console.ForegroundColor = ConsoleColor.DarkRed;
                     }
-                        napok++;
-                  
+                    napok++;
+
 
 
 
@@ -270,8 +246,19 @@ namespace naptar_ikt_feladat
                 }
                 Console.WriteLine();
             }
-            Console.WriteLine("Szeretné egy adott napnakl az esményeit megtekinteni? (I/N)");
-            char meg = Convert.ToChar(Console.ReadLine());
+            char meg;
+            do
+            {
+                Console.WriteLine("Szeretné egy adott napnakl az esményeit megtekinteni? (I/N)");
+                meg = Convert.ToChar(Console.ReadLine().ToUpper());
+
+
+               if (meg != 'N' && meg != 'I')
+                {
+                    Console.WriteLine("Nem jó, újra!");
+                }
+
+            } while (meg != 'N' && meg != 'I');
             int nap;
             if (meg == 'N')
             {
@@ -294,16 +281,19 @@ namespace naptar_ikt_feladat
 
                 foreach (Felhasznalok fe in adatok)
                 {
-                    if (fe.eidopontkezd.Day == (nap - 1))
+
+
+                    if (fe.eidopontkezd.Day == nap)
                     {
-                        Console.WriteLine(adatok[nap - 1]);
+                        int napind = adatok.IndexOf(fe);
+                        Console.WriteLine($"{adatok[napind]}");
                     }
                 }
                 Console.WriteLine("Szeretne ehhez a naphoz új eseményt hozzáadni?(I/N)");
                 meg = Convert.ToChar(Console.ReadLine());
                 if (meg == 'I')
                 {
-                    Ujesemeny(f,adatok);
+                    Ujesemeny(f, adatok);
                 }
                 else
                 {
@@ -314,42 +304,76 @@ namespace naptar_ikt_feladat
                 }
 
             }
-       
-        }
-            
-
-        static void Kilepes(List<Felhasznalok> adatok)
-        {
-          
-            
-            StreamWriter kimenet = new StreamWriter("esemenyek.txt");
-            foreach (Felhasznalok fe in adatok)
-            {
-                kimenet.WriteLine($"{fe.ToString()}");
-            }
-
-            kimenet.Flush();
-            kimenet.Close();
 
         }
+
+
+
 
 
         static void Ujesemeny(Felhasznalok f, List<Felhasznalok> adatok)
         {
             Console.Clear();
 
-            Console.Write($"Üdv {f.felhasznalonev}\n kérem a következő formátumban adja meg az új esemény adatait: eseményneve;év.hónap.nap.óó:pp:mm;év.hónap.nap.óó:pp:mm\n:");
-            string bekert = Console.ReadLine();
-            Felhasznalok felh = new Felhasznalok();
-            string[] feldb = bekert.Split(';');
+            Console.WriteLine($"Jelenlegi felhasználó: {f.felhasznalonev}");
 
-            felh.felhasznalonev = f.felhasznalonev;
-            felh.esemenynev = feldb[0];
-            felh.eidopontkezd = Convert.ToDateTime(feldb[1]);
-            felh.eidopontveg = Convert.ToDateTime(feldb[2]);
+            char valasz;
+            do
+            {
+                Console.WriteLine($"Ezzel a felhasználóval szeretne új eseményt hozzáadni?(I/N)");
+                valasz = Convert.ToChar(Console.ReadLine());
+                if (valasz != 'I' && valasz != 'N')
+                {
+                    Console.WriteLine("Nem megfelelő karaktert adott meg!");
+                }
 
-            adatok.Add(felh);
 
+            } while (valasz != 'I' && valasz != 'N');
+
+            if (valasz == 'I')
+            {
+                string bekertes;
+                DateTime bekertnap;
+                DateTime esekezd;
+                DateTime eseveg;
+                foreach (Felhasznalok fe in adatok)
+                {
+                    do
+                    {
+
+                        Console.WriteLine("Fontos tudnialók mielőtt megadná az eseményt:\n Az esemény időpontjának 8 óra és este 8 óra között kell lennie. ");
+                        Console.Write("Esemény neve:");
+                        bekertes = Console.ReadLine();
+                        Console.Write("Melyik nap? (Formátum: év.hónap.nap:");
+                        bekertnap = Convert.ToDateTime(Console.ReadLine());
+                        Console.WriteLine("Esemény kezdete(óó:pp:mm):");
+                        esekezd = Convert.ToDateTime(Console.ReadLine());
+                        Console.WriteLine("Esemény vége(óó:pp:mm):");
+                        eseveg = Convert.ToDateTime(Console.ReadLine());
+
+                        if (fe.eidopontkezd.Hour == esekezd.Hour)
+                        {
+                            Console.WriteLine($"Hiba! Arra az időtartamra már van esemény bejegyezve");
+                        }
+
+
+
+
+                    } while (fe.eidopontkezd.Hour == esekezd.Hour);
+                }
+
+
+                Console.WriteLine("Nyomjon meg egy gombot, hogy viszatérjen a menübe");
+                Console.ReadLine();
+                Menu(f, adatok);
+
+            }
+
+
+            else if (valasz == 'N')
+            {
+                Felhasznalovaltas(f);
+            }
 
 
         }
@@ -357,7 +381,63 @@ namespace naptar_ikt_feladat
         {
             Random rnd = new Random();
             int nap = rnd.Next(1, 29);
-            DateTime maidatum = new DateTime(2028, 2, nap);
+            int ora = rnd.Next(1, 23);
+            int perc = rnd.Next(1, 59);
+            DateTime maidatum = new DateTime(2028, 2, nap, ora, perc, 00);
+            Console.WriteLine($"Mai dátum: {maidatum}");
+            int napid;
+
+            foreach (Felhasznalok fe in adatok)
+            {
+                if (fe.eidopontkezd.Day == maidatum.Day && maidatum.Hour < fe.eidopontkezd.Hour)
+                {
+                    napid = adatok.IndexOf(fe);
+                    Console.WriteLine($"Legközelebbi esemény(ek): {adatok[napid]}");
+                }
+                else if (fe.eidopontkezd.Day == maidatum.Day && maidatum.Hour > fe.eidopontkezd.Hour )
+                {
+                    napid = adatok.IndexOf(fe);
+                    Console.WriteLine($"Legközelebbi esemény(ek): {adatok[napid+1]}");
+                }
+            }
+        
+       
+
+
+
+
+
+
+
+            
+
+
+
+
+
+
+        Console.WriteLine("Nyomjon meg egy gombot, hogy viszatérjen a menübe");
+            Console.ReadLine();
+            Menu(f, adatok);
+
+
+
+        }
+        static void Kilepes(List<Felhasznalok> adatok)
+        {
+
+
+            StreamWriter kimenet = new StreamWriter("esemenyek.txt");
+            foreach (Felhasznalok fe in adatok)
+            {
+
+
+                kimenet.WriteLine($"{fe.ToString()}");
+            }
+
+            kimenet.Flush();
+            kimenet.Close();
+            Console.WriteLine("Az események elmentésre kerültek az esemenyek.txt fájlba.");
 
         }
 
