@@ -208,7 +208,7 @@ namespace naptar_ikt_feladat
             char meg;
             do
             {
-                Console.WriteLine("Szeretné egy adott napnakl az esményeit megtekinteni? (I/N)");
+                Console.WriteLine("Szeretné egy adott napnak az esményeit megtekinteni? (I/N)");
                 meg = Convert.ToChar(Console.ReadLine().ToUpper());
 
                 if (meg != 'N' && meg != 'I')
@@ -271,18 +271,15 @@ namespace naptar_ikt_feladat
             do
             {
                 Console.WriteLine($"Ezzel a felhasználóval szeretne új eseményt hozzáadni?(I/N)");
-                valasz = Convert.ToChar(Console.ReadLine());
+                valasz = Convert.ToChar(Console.ReadLine().ToUpper());
                 if (valasz != 'I' && valasz != 'N')
                 {
                     Console.WriteLine("Nem megfelelő karaktert adott meg!");
                 }
             } while (valasz != 'I' && valasz != 'N');
 
-            if (valasz == 'N')
-            {
-                Menu(f, adatok);
-            }
-            else if (valasz == 'I')
+
+            if (valasz == 'I')
             {
                 string bekertEs;
                 int nap;
@@ -300,7 +297,7 @@ namespace naptar_ikt_feladat
                     idoTartamJo = true;
                     do
                     {
-                        Console.WriteLine("Fontos tudnialók mielőtt megadná az eseményt:\n Az esemény időpontjának 8 óra és este 8 óra között kell lennie valamint a hossza 30 és 120 perc között kell, hogy legyen. ");
+                        Console.WriteLine("Fontos tudnialók mielőtt megadná az eseményt:\n Az esemény időpontjának 8 óra és este 8 óra között kell lennie.\n Az esemény hosszának 30 és 120 perc között kell lennie.");
                         Console.Write("Esemény neve:");
                         bekertEs = Console.ReadLine();
                         Console.Write("Melyik napon legyen az esemény?{1-29}:");
@@ -327,15 +324,6 @@ namespace naptar_ikt_feladat
 
 
                     } while (oraK < 8 && oraV > 20);
-
-
-
-
-
-
-
-
-
                     foreach (Felhasznalok l in adatok)
                     {
                         ujEs.felhasznalonev = l.felhasznalonev;
@@ -367,28 +355,35 @@ namespace naptar_ikt_feladat
 
 
                 adatok.Add(ujEs);
-            }
 
-            for (int i = 0; i < adatok.Count - 1; i++)
-            {
-                for (int j = 0; j < adatok.Count - 1; j++)
+
+                for (int i = 0; i < adatok.Count - 1; i++)
                 {
-                    if (adatok[j].eidopontkezd > adatok[j + 1].eidopontkezd)
+                    for (int j = 0; j < adatok.Count - 1; j++)
                     {
-                        Felhasznalok temp = adatok[j];
-                        adatok[j] = adatok[j + 1];
-                        adatok[j + 1] = temp;
+                        if (adatok[j].eidopontkezd > adatok[j + 1].eidopontkezd)
+                        {
+                            Felhasznalok temp = adatok[j];
+                            adatok[j] = adatok[j + 1];
+                            adatok[j + 1] = temp;
+                        }
                     }
                 }
+
+                Console.WriteLine("Esemény sikeresen hozzáadva!\nNyomjon meg egy gombot, hogy viszatérjen a menübe.");
+                Console.ReadLine();
+                Menu(f, adatok);
+            }
+            else if (valasz == 'N')
+            {
+                Menu(f, adatok);
             }
 
-            Console.WriteLine("Nyomjon meg egy gombot, hogy viszatérjen a menübe");
-            Console.ReadLine();
-            Menu(f, adatok);
         }
 
         static void Legkozelebbiesemeny(Felhasznalok f, List<Felhasznalok> adatok)
         {
+            Console.Clear();
             Random rnd = new Random();
             int nap = rnd.Next(1, 29);
             int ora = rnd.Next(1, 23);
